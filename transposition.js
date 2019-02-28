@@ -1,36 +1,46 @@
 const fs = require('fs');
 
-function encryption(text) {
-    var textArray = text.split(' ');
+function encryption(text, blockKey, enable) {
+
+    var textArray = [];
+    var textBlock = '';
     var wordArray = [];
-    var temp, j = 0;
 
-    for (var i = 0; i < textArray.length; i++) {
-
-        wordArray = textArray[i].split('');
-        var flag = textArray[i].length % 2;
-
-        while (j < wordArray.length - flag) {
-            temp = wordArray[j];
-            wordArray[j] = wordArray[j + 1];
-            wordArray[j + 1] = temp;
-            j += 2;
+    for (let i = 0; i < text.length; i++) {
+        textBlock += text[i];
+        if (textBlock.length % blockKey.length == 0 || i == text.length - 1) {
+            textArray.push(textBlock);
+            textBlock = '';
         }
-        j = 0;
-        textArray[i] = wordArray.join('');
     }
 
-    return textArray.join(' ');
+
+    textArray.forEach(function (block, i, textArray) {
+
+        wordArray = [];
+        for (let i = 0; i < blockKey.length; i++) {
+            if (enable) {
+                wordArray.splice(blockKey[i] - 1, 0, block[i]);
+            } else {
+                wordArray.push(block[blockKey[i] - 1]);
+            }
+        }
+        textArray[i] = wordArray.join('');
+    });
+
+    return textArray.join('');
 }
 
 // ------------------------- Export section --------------------------- //
 
-exports.encodeFile = function(file) {
+exports.encodeFile = function(file, blockKey) {
     var text = fs.readFileSync(file, 'utf8');
-    text = encryption(text);
+    text = encryption(text, blockKey, true);
     fs.writeFileSync(file, text);
 };
 
-// adding decodeFile method, which has a link to encodeFile,
-// as encodeFile can be both used for encoding and decoding
-exports.decodeFile = exports.encodeFile;
+exports.decodeFile = function(file, blockKey) {
+    var text = fs.readFileSync(file, 'utf8');
+    text = encryption(text, blockKey, false);
+    fs.writeFileSync(file, text);
+};
