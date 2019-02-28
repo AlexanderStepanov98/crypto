@@ -1,6 +1,7 @@
 const Caesar = require('./caesar.js');
 const Transpose = require('./transposition.js');
 const Vigenere = require('./vigenere.js');
+const OTP = require('./otp.js');
 const File = require('./file.js');
 const testFile = "sample.txt";
 
@@ -28,3 +29,9 @@ console.log('// ------------------------- Vigenere algorithm test --------------
 Vigenere.encodeFile(testFile, blockLength);
 console.log(File.getText(testFile));
 Vigenere.decodeFile(testFile, blockLength);
+
+
+console.log('// ---------------------------- OTP algorithm test ------------------------------ //');
+var otpKey = OTP.encodeFile(testFile);
+console.log(File.getText(testFile));
+OTP.decodeFile(testFile, otpKey);
