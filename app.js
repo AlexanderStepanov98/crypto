@@ -3,36 +3,28 @@ const Transpose = require('./transposition.js');
 const Vigenere = require('./vigenere.js');
 const File = require('./file.js');
 const testFile = "sample.txt";
-var key = 5;
-var blockLength = 4;
-var text;
 
-text = File.getText(testFile);
-console.log("Original text : " + text);
+var key = 10;
+var blockLength = 4;
+var blockKey = [2, 3, 4, 1];
+
+
+console.log("Original text : " + File.getText(testFile));
+
 
 console.log('// -------------------------- Caesar algorithm test ---------------------------- //');
 Caesar.encodeFile(testFile, key);
-text = File.getText(testFile);
-console.log(text);
-
+console.log(File.getText(testFile));
 Caesar.decodeFile(testFile, key);
-text = File.getText(testFile);
-console.log(text);
+
 
 console.log('// ---------------------- Transposition algorithm test ------------------------- //');
-Transpose.encodeFile(testFile);
-text = File.getText(testFile);
-console.log(text);
+Transpose.encodeFile(testFile, blockKey);
+console.log(File.getText(testFile));
+Transpose.decodeFile(testFile, blockKey);
 
-Transpose.decodeFile(testFile);
-text = File.getText(testFile);
-console.log(text);
 
 console.log('// ------------------------- Vigenere algorithm test --------------------------- //');
 Vigenere.encodeFile(testFile, blockLength);
-text = File.getText(testFile);
-console.log(text);
-
+console.log(File.getText(testFile));
 Vigenere.decodeFile(testFile, blockLength);
-text = File.getText(testFile);
-console.log(text);
