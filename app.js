@@ -5,33 +5,33 @@ const OTP = require('./otp.js');
 const File = require('./file.js');
 const testFile = "sample.txt";
 
-var key = 10;
-var blockLength = 4;
-var blockKey = [2, 3, 4, 1];
+let caesarKey = 10;
+let transposeKey = [2, 3, 4, 1];
+let vigenereKey = "QWERTY";
 
 
 console.log("Original text : " + File.getText(testFile));
 
 
 console.log('// -------------------------- Caesar algorithm test ---------------------------- //');
-Caesar.encodeFile(testFile, key);
+Caesar.encodeFile(testFile, caesarKey);
 console.log(File.getText(testFile));
-Caesar.decodeFile(testFile, key);
+Caesar.decodeFile(testFile, caesarKey);
 
 
 console.log('// ---------------------- Transposition algorithm test ------------------------- //');
-Transpose.encodeFile(testFile, blockKey);
+Transpose.encodeFile(testFile, transposeKey);
 console.log(File.getText(testFile));
-Transpose.decodeFile(testFile, blockKey);
+Transpose.decodeFile(testFile, transposeKey);
 
 
 console.log('// ------------------------- Vigenere algorithm test --------------------------- //');
-Vigenere.encodeFile(testFile, blockLength);
+Vigenere.encodeFile(testFile, vigenereKey);
 console.log(File.getText(testFile));
-Vigenere.decodeFile(testFile, blockLength);
+Vigenere.decodeFile(testFile, vigenereKey);
 
 
 console.log('// ---------------------------- OTP algorithm test ------------------------------ //');
-var otpKey = OTP.encodeFile(testFile);
+let otpKey = OTP.encodeFile(testFile);
 console.log(File.getText(testFile));
 OTP.decodeFile(testFile, otpKey);
